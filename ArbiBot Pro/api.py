@@ -48,14 +48,14 @@ monitoring_configs = []
 
 @app.get("/arbitrage-opportunities", response_model=List[ArbitrageOpportunityModel])
 def get_arbitrage_opportunities():
-    from ArbitrageOpportunity import make_api_request
+    from ..ArbitrageOpportunity import make_api_request
     return make_api_request(f'apps/68597fa25ab57f03a564a78b/entities/ArbitrageOpportunity')
 
 @app.get("/monitoring-configs", response_model=List[MonitoringConfigModel])
 def get_monitoring_configs():
-    from MonitoringConfig import make_api_request
+    from ..MonitoringConfig import make_api_request
     return make_api_request(f'apps/68597fa25ab57f03a564a78b/entities/MonitoringConfig')
 
 # Inicialização local
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
