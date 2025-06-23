@@ -10,7 +10,7 @@
         "type": "string",
         "description": "Endereço do contrato do token"
       },
-      "min_spread": {
+      "min_spread":{
         "type": "number",
         "description": "Spread mínimo para alertar (%)",
         "default": 0.5
