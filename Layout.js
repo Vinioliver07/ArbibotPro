@@ -72,7 +72,7 @@ export default function Layout({ children, currentPageName }) {
               </div>
               <div>
                 <h2 className="font-bold text-lg" style={{color: 'var(--text-primary)'}}>
-                  ArbiBot Pro
+                  ArbiBot_Pro
                 </h2>
                 <p className="text-xs" style={{color: 'var(--text-secondary)'}}>
                   DeFi Arbitrage Monitor
@@ -152,7 +152,7 @@ export default function Layout({ children, currentPageName }) {
               <SidebarTrigger className="hover:bg-opacity-20 p-2 rounded-lg transition-colors duration-200" 
                               style={{color: 'var(--text-primary)'}} />
               <h1 className="text-xl font-bold" style={{color: 'var(--text-primary)'}}>
-                ArbiBot Pro
+                ArbiBot_Pro
               </h1>
             </div>
           </header>
