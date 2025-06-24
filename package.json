@@ -1,0 +1,41 @@
+{
+  "name": "arbibot-contracts",
+  "version": "1.0.0",
+  "description": "Contrato inteligente otimizado para arbitragem com flash loans",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "deploy:amoy": "npx hardhat run scripts/deploy-amoy.js --network amoy",
+    "test:amoy": "npx hardhat run scripts/test-deployment.js --network amoy",
+    "deploy:mumbai": "npx hardhat run scripts/deploy-mumbai.js --network mumbai",
+    "deploy:mainnet": "npx hardhat run scripts/deploy-mainnet.js --network polygon",
+    "verify:amoy": "npx hardhat verify --network amoy",
+    "node": "npx hardhat node",
+    "clean": "npx hardhat clean",
+    "flatten": "npx hardhat flatten"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "hardhat": "^2.22.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "solidity-coverage": "^0.8.12"
+  },
+  "dependencies": {
+    "@aave/core-v3": "^1.19.3",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "dotenv": "^16.4.5"
+  },
+  "keywords": [
+    "hardhat",
+    "ethereum",
+    "polygon",
+    "arbitrage",
+    "flashloan",
+    "defi"
+  ],
+  "author": "",
+  "license": "MIT"
+}
