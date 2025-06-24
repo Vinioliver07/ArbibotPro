@@ -47,6 +47,8 @@ async function main() {
       AMOY_ADDRESSES.WMATIC,
       deployer.address
     );
+
+    console.log("Objeto do contrato:", arbitrageBot);
     
     console.log("⏳ Aguardando confirmação...");
     await arbitrageBot.waitForDeployment();

@@ -9,11 +9,20 @@ describe("ArbitrageBot", function () {
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
 
-    // Deploy do contrato ArbitrageBot com endereços mock
+    // Deploy dos contratos mocks
+    const MockPoolProvider = await ethers.getContractFactory("MockPoolProvider");
+    mockPoolProvider = await MockPoolProvider.deploy();
+    await mockPoolProvider.waitForDeployment();
+
+    const MockERC20 = await ethers.getContractFactory("MockERC20");
+    mockWETH = await MockERC20.deploy("Mock WETH", "MWETH", 18);
+    await mockWETH.waitForDeployment();
+
+    // Deploy do contrato ArbitrageBot com endereços mocks reais
     const ArbitrageBot = await ethers.getContractFactory("ArbitrageBot");
     arbitrageBot = await ArbitrageBot.deploy(
-      "0x1234567890123456789012345678901234567890", // Mock pool provider
-      "0x0987654321098765432109876543210987654321", // Mock WETH
+      await mockPoolProvider.getAddress(),
+      await mockWETH.getAddress(),
       owner.address
     );
     await arbitrageBot.waitForDeployment();
@@ -25,7 +34,7 @@ describe("ArbitrageBot", function () {
     });
 
     it("Deve definir o endereço WETH correto", async function () {
-      expect(await arbitrageBot.WETH_ADDRESS()).to.equal("0x0987654321098765432109876543210987654321");
+      expect(await arbitrageBot.WETH_ADDRESS()).to.equal(await mockWETH.getAddress());
     });
 
     it("Deve autorizar o owner como caller inicial", async function () {
@@ -121,7 +130,7 @@ describe("ArbitrageBot", function () {
   describe("Execução de Arbitragem", function () {
     it("Deve rejeitar execução por caller não autorizado", async function () {
       const params = {
-        tokenA: "0x0987654321098765432109876543210987654321",
+        tokenA: await mockWETH.getAddress(),
         tokenB: addr1.address,
         dex1Router: addr1.address,
         dex2Router: addr2.address,
@@ -131,7 +140,7 @@ describe("ArbitrageBot", function () {
 
       await expect(
         arbitrageBot.connect(addr1).executeArbitrage(
-          "0x0987654321098765432109876543210987654321",
+          await mockWETH.getAddress(),
           ethers.parseEther("1"),
           params,
           ethers.parseEther("0.01")
@@ -157,7 +166,7 @@ describe("ArbitrageBot", function () {
       const finalBalance = await ethers.provider.getBalance(owner.address);
       
       // Verificar que o saldo aumentou (considerando o gas gasto)
-      expect(finalBalance).to.be.gt(initialBalance.sub(ethers.parseEther("0.01")));
+      expect(finalBalance > initialBalance - ethers.parseEther("0.01")).to.be.true;
     });
 
     it("Deve rejeitar withdraw de emergência por não-owner", async function () {
