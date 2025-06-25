@@ -1,22 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@aave/core-v3/contracts/interfaces/IPool.sol";
-import "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
 /**
  * @title ArbitrageBotV2
  * @dev Contrato avançado para arbitragem com proteções MEV e validações robustas
- * @notice Versão otimizada com logs detalhados e proteção contra ataques
+ * @notice Versão otimizada para Amoy testnet com flash loans simulados
  */
 contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
     // ============ Constants & Immutables ============
-    IPool public immutable aavePool;
     address public immutable WETH_ADDRESS;
     uint256 public constant MAX_SLIPPAGE_BPS = 1000; // 10%
     uint256 public constant MIN_PROFIT_BPS = 10; // 0.1%
@@ -52,12 +49,6 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
         bytes32 salt; // Para evitar replay attacks
     }
     
-    struct FlashLoanData {
-        ArbitrageParams params;
-        uint256 expectedProfit;
-        uint256 executionTimestamp;
-    }
-
     struct ArbitrageResult {
         bool success;
         uint256 profit;
@@ -109,25 +100,22 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
     error InvalidSlippage(uint256 slippage);
     error InsufficientProfit(uint256 actual, uint256 required);
     error InvalidDeadline(uint256 deadline, uint256 currentTime);
-    error FlashLoanFailed(string reason);
     error ArbitrageAlreadyExecuted(bytes32 arbitrageId);
     error GasPriceTooHigh(uint256 actual, uint256 max);
     error InvalidTokenPair(address tokenA, address tokenB);
     error ExecutionTimeout(uint256 executionTime, uint256 maxTime);
     error EmergencyCooldownActive(uint256 remainingTime);
     error InvalidAmount(uint256 amount);
+    error InsufficientBalance(uint256 required, uint256 available);
 
     constructor(
-        address _aavePoolAddressesProvider,
         address _wethAddress,
         address _owner
     ) Ownable(_owner) {
-        if (_aavePoolAddressesProvider == address(0) || _wethAddress == address(0)) {
-            revert InvalidTokenPair(_aavePoolAddressesProvider, _wethAddress);
+        if (_wethAddress == address(0)) {
+            revert InvalidTokenPair(_wethAddress, _wethAddress);
         }
 
-        IPoolAddressesProvider provider = IPoolAddressesProvider(_aavePoolAddressesProvider);
-        aavePool = IPool(provider.getPool());
         WETH_ADDRESS = _wethAddress;
         
         // Autorizar owner como caller inicial
@@ -160,7 +148,7 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
     }
 
     modifier gasOptimized(uint256 maxGas) {
-        if (tx.gasprice > maxGas) {
+        if (maxGas > 0 && tx.gasprice > maxGas) {
             revert GasPriceTooHigh(tx.gasprice, maxGas);
         }
         _;
@@ -174,37 +162,37 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
         _;
     }
 
-    // ============ Flash Loan Implementation ============
-    function executeOperation(
-        address[] calldata assets,
-        uint256[] calldata amounts,
-        uint256[] calldata premiums,
-        address initiator,
-        bytes calldata params
-    ) external returns (bool) {
-        require(msg.sender == address(aavePool), "CALLER_MUST_BE_AAVE_POOL");
-        require(initiator == address(this), "INVALID_INITIATOR");
-        require(assets.length == 1, "SINGLE_ASSET_ONLY");
+    // ============ Main Arbitrage Execution ============
+    function executeArbitrage(
+        address asset,
+        uint256 amount,
+        ArbitrageParams calldata params,
+        uint256 expectedProfit
+    ) external 
+        onlyAuthorizedCaller 
+        nonReentrant 
+        whenNotPaused
+        validDeadline(params.deadline)
+        gasOptimized(params.maxGasPrice == 0 ? maxGasPrice : params.maxGasPrice)
+        nonReplayable(_generateArbitrageId(asset, amount, params))
+    {
+        if (amount == 0 || amount > MAX_LOAN_AMOUNT) {
+            revert InvalidAmount(amount);
+        }
 
-        address asset = assets[0];
-        uint256 amount = amounts[0];
-        uint256 premium = premiums[0];
-        
-        FlashLoanData memory flashData = abi.decode(params, (FlashLoanData));
-        
-        // Verificar timeout de execução
-        if (block.timestamp > flashData.executionTimestamp + executionTimeout) {
-            revert ExecutionTimeout(block.timestamp - flashData.executionTimestamp, executionTimeout);
+        // Verificar se temos saldo suficiente para a arbitragem
+        uint256 balance = IERC20(asset).balanceOf(address(this));
+        if (balance < amount) {
+            revert InsufficientBalance(amount, balance);
         }
 
         uint256 gasStart = gasleft();
-        bytes32 arbitrageId = _generateArbitrageId(asset, amount, flashData.params);
+        bytes32 arbitrageId = _generateArbitrageId(asset, amount, params);
         
         ArbitrageResult memory result = _executeArbitrageLogic(
             asset,
             amount,
-            premium,
-            flashData.params,
+            params,
             arbitrageId
         );
 
@@ -217,8 +205,8 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
                 asset,
                 amount,
                 result.profit,
-                flashData.params.dex1Router,
-                flashData.params.dex2Router,
+                params.dex1Router,
+                params.dex2Router,
                 gasUsed,
                 block.timestamp,
                 arbitrageId
@@ -228,24 +216,17 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
                 asset,
                 amount,
                 result.failureReason,
-                flashData.params.dex1Router,
-                flashData.params.dex2Router,
+                params.dex1Router,
+                params.dex2Router,
                 block.timestamp,
                 arbitrageId
             );
-            
-            // Ainda devemos repagar o flash loan mesmo se falhou
-            _repayFlashLoan(asset, amount, premium);
-            return false;
         }
-
-        return true;
     }
 
     function _executeArbitrageLogic(
         address asset,
         uint256 amount,
-        uint256 premium,
         ArbitrageParams memory params,
         bytes32 arbitrageId
     ) internal returns (ArbitrageResult memory) {
@@ -262,20 +243,20 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
         }
 
         try this._performArbitrageSwaps(asset, amount, params) returns (uint256 finalAmount) {
-            uint256 totalOwed = amount + premium;
+            uint256 initialAmount = amount;
             
-            if (finalAmount < totalOwed) {
+            if (finalAmount <= initialAmount) {
                 return ArbitrageResult({
                     success: false,
                     profit: 0,
                     gasUsed: 0,
                     actualAmountOut: finalAmount,
-                    failureReason: "INSUFFICIENT_BALANCE_TO_REPAY"
+                    failureReason: "NO_PROFIT_GENERATED"
                 });
             }
 
-            uint256 profit = finalAmount - totalOwed;
-            uint256 minExpectedProfit = (amount * minProfitBasisPoints) / 10000;
+            uint256 profit = finalAmount - initialAmount;
+            uint256 minExpectedProfit = (initialAmount * minProfitBasisPoints) / 10000;
             
             if (profit < minExpectedProfit) {
                 return ArbitrageResult({
@@ -287,9 +268,6 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
                 });
             }
 
-            // Repagar flash loan
-            IERC20(asset).approve(address(aavePool), totalOwed);
-            
             // Transferir lucro para owner
             if (profit > 0) {
                 IERC20(asset).transfer(owner(), profit);
@@ -405,18 +383,6 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
         return true;
     }
 
-    function _repayFlashLoan(address asset, uint256 amount, uint256 premium) internal {
-        uint256 totalOwed = amount + premium;
-        uint256 balance = IERC20(asset).balanceOf(address(this));
-        
-        if (balance >= totalOwed) {
-            IERC20(asset).approve(address(aavePool), totalOwed);
-        } else {
-            // Em caso de falha, tentar recuperar fundos do owner se disponível
-            revert FlashLoanFailed("INSUFFICIENT_BALANCE_FOR_REPAYMENT");
-        }
-    }
-
     function _generateArbitrageId(
         address asset,
         uint256 amount,
@@ -431,52 +397,6 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
             block.timestamp,
             msg.sender
         ));
-    }
-
-    // ============ Main Execution Function ============
-    function executeArbitrage(
-        address asset,
-        uint256 amount,
-        ArbitrageParams calldata params,
-        uint256 expectedProfit
-    ) external 
-        onlyAuthorizedCaller 
-        nonReentrant 
-        whenNotPaused
-        validDeadline(params.deadline)
-        gasOptimized(params.maxGasPrice == 0 ? maxGasPrice : params.maxGasPrice)
-        nonReplayable(_generateArbitrageId(asset, amount, params))
-    {
-        if (amount == 0 || amount > MAX_LOAN_AMOUNT) {
-            revert InvalidAmount(amount);
-        }
-
-        FlashLoanData memory flashData = FlashLoanData({
-            params: params,
-            expectedProfit: expectedProfit,
-            executionTimestamp: block.timestamp
-        });
-        
-        bytes memory data = abi.encode(flashData);
-        
-        address[] memory assets = new address[](1);
-        assets[0] = asset;
-        
-        uint256[] memory amounts = new uint256[](1);
-        amounts[0] = amount;
-        
-        uint256[] memory modes = new uint256[](1);
-        modes[0] = 0; // Flash loan mode
-        
-        aavePool.flashLoan(
-            address(this),
-            assets,
-            amounts,
-            modes,
-            address(this),
-            data,
-            0
-        );
     }
 
     // ============ Administration Functions ============
@@ -597,5 +517,13 @@ contract ArbitrageBotV2 is Ownable, ReentrancyGuard, Pausable {
             recipient.transfer(balance);
             emit ProfitWithdrawn(address(0), balance, recipient);
         }
+    }
+
+    // ============ Deposit Function for Testing ============
+    function depositForArbitrage(address token, uint256 amount) external {
+        require(supportedTokens[token], "TOKEN_NOT_SUPPORTED");
+        require(amount > 0, "INVALID_AMOUNT");
+        
+        IERC20(token).transferFrom(msg.sender, address(this), amount);
     }
 }

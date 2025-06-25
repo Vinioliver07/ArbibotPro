@@ -1,0 +1,166 @@
+{
+  "timestamp": "2025-06-24T22:07:56.867Z",
+  "overall": "unhealthy",
+  "checks": [
+    {
+      "name": "Env PRIVATE_KEY",
+      "status": "pass",
+      "details": "Definida",
+      "timestamp": "2025-06-24T22:07:56.867Z"
+    },
+    {
+      "name": "Env RPC_URL_PRIMARY",
+      "status": "fail",
+      "details": "Variável obrigatória não definida",
+      "timestamp": "2025-06-24T22:07:56.867Z"
+    },
+    {
+      "name": "Env ARBITRAGE_CONTRACT_ADDRESS",
+      "status": "fail",
+      "details": "Variável obrigatória não definida",
+      "timestamp": "2025-06-24T22:07:56.868Z"
+    },
+    {
+      "name": "Env RPC_URL_BACKUP",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:07:56.868Z"
+    },
+    {
+      "name": "Env WS_URL_PRIMARY",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:07:56.868Z"
+    },
+    {
+      "name": "Env POLYGONSCAN_API_KEY",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:07:56.868Z"
+    },
+    {
+      "name": "Private Key Format",
+      "status": "pass",
+      "details": "Formato correto",
+      "timestamp": "2025-06-24T22:07:56.868Z"
+    },
+    {
+      "name": "Contract Address",
+      "status": "fail",
+      "details": "Endereço não configurado",
+      "timestamp": "2025-06-24T22:07:56.869Z"
+    },
+    {
+      "name": "Wallet Balance",
+      "status": "fail",
+      "details": "Configuração incompleta",
+      "timestamp": "2025-06-24T22:07:56.869Z"
+    },
+    {
+      "name": "Logs Directory",
+      "status": "warn",
+      "details": "Diretório não existe",
+      "timestamp": "2025-06-24T22:07:56.870Z"
+    },
+    {
+      "name": "Directory logs",
+      "status": "warn",
+      "details": "Não existe (será criado quando necessário)",
+      "timestamp": "2025-06-24T22:07:56.870Z"
+    },
+    {
+      "name": "Directory data",
+      "status": "warn",
+      "details": "Não existe (será criado quando necessário)",
+      "timestamp": "2025-06-24T22:07:56.870Z"
+    },
+    {
+      "name": "Directory backups",
+      "status": "warn",
+      "details": "Não existe (será criado quando necessário)",
+      "timestamp": "2025-06-24T22:07:56.870Z"
+    },
+    {
+      "name": "Disk Space",
+      "status": "pass",
+      "details": "Disponível (verificação completa requer módulo adicional)",
+      "timestamp": "2025-06-24T22:07:56.871Z"
+    },
+    {
+      "name": "Dependency ethers",
+      "status": "pass",
+      "details": "v^6.9.0",
+      "timestamp": "2025-06-24T22:07:56.871Z"
+    },
+    {
+      "name": "Dependency hardhat",
+      "status": "pass",
+      "details": "v^2.22.0",
+      "timestamp": "2025-06-24T22:07:56.871Z"
+    },
+    {
+      "name": "Dependency winston",
+      "status": "pass",
+      "details": "v^3.17.0",
+      "timestamp": "2025-06-24T22:07:56.871Z"
+    },
+    {
+      "name": "Dependency ws",
+      "status": "pass",
+      "details": "v^8.14.2",
+      "timestamp": "2025-06-24T22:07:56.871Z"
+    },
+    {
+      "name": "Node Modules",
+      "status": "pass",
+      "details": "Diretório existe",
+      "timestamp": "2025-06-24T22:07:56.872Z"
+    }
+  ],
+  "warnings": [
+    {
+      "category": "Environment",
+      "message": "Variável opcional RPC_URL_BACKUP não definida"
+    },
+    {
+      "category": "Environment",
+      "message": "Variável opcional WS_URL_PRIMARY não definida"
+    },
+    {
+      "category": "Environment",
+      "message": "Variável opcional POLYGONSCAN_API_KEY não definida"
+    },
+    {
+      "category": "Logging",
+      "message": "Diretório de logs não foi criado"
+    }
+  ],
+  "errors": [
+    {
+      "category": "Environment",
+      "message": "Variável RPC_URL_PRIMARY é obrigatória"
+    },
+    {
+      "category": "Environment",
+      "message": "Variável ARBITRAGE_CONTRACT_ADDRESS é obrigatória"
+    },
+    {
+      "category": "Network",
+      "message": "Nenhum provider funcionando"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "Environment",
+      "action": "Configurar todas as variáveis obrigatórias"
+    },
+    {
+      "category": "Environment",
+      "action": "Configurar variáveis opcionais para maior confiabilidade"
+    },
+    {
+      "category": "Network",
+      "action": "Verificar conexão com internet e URLs dos RPCs"
+    }
+  ]
+}

@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Badge } from '@/components/ui/badge';
-// import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { 
   TrendingUp, 
   Clock, 
@@ -11,6 +9,8 @@ import {
   Target,
   Fuel
 } from "lucide-react";
+import Badge from '../ui/Badge';
+import Button from '../ui/Button';
 
 export default function OpportunityCard({ opportunity, index }) {
   const getStatusColor = (status) => {

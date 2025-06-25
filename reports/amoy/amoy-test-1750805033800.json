@@ -1,0 +1,348 @@
+{
+  "timestamp": "2025-06-24T22:43:53.800Z",
+  "network": "amoy",
+  "duration": 122271,
+  "stats": {
+    "opportunitiesFound": 0,
+    "opportunitiesExecuted": 0,
+    "errors": 0,
+    "startTime": 1750804911529,
+    "totalProfit": "0"
+  },
+  "testResults": [
+    {
+      "timestamp": 1750804914536,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804917545,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804920552,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804923555,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804926570,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804929580,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804932594,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804935600,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804938606,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804941609,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 1,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804944618,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804947619,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804950629,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804953634,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804956639,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804959643,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804962643,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804965645,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804968653,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804971668,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804974683,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 1,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804977689,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804980696,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804983705,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804986718,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 1,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804989719,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804992719,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804995729,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750804998731,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805001735,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805004743,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 1,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805007742,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805010757,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805013764,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805016764,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805019778,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805022778,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805025779,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    },
+    {
+      "timestamp": 1750805028780,
+      "opportunities": 0,
+      "executed": 0,
+      "success": false,
+      "latency": 0,
+      "profit": "0"
+    }
+  ],
+  "cacheStats": {
+    "total": 39,
+    "successful": 0,
+    "failed": 39,
+    "successRate": 0,
+    "avgLatency": 0.10256410256410256
+  },
+  "config": {
+    "MIN_PROFIT_WEI": "100000000000000",
+    "CHECK_INTERVAL": 3000,
+    "MAX_GAS_PRICE": 30,
+    "NETWORK": "amoy",
+    "RPC_TIMEOUT": 8000,
+    "MAX_SLIPPAGE": 1,
+    "USE_FLASHBOTS": false,
+    "LOG_LEVEL": "debug",
+    "LOG_TO_FILE": true,
+    "LOG_TO_CONSOLE": true,
+    "TEST_DURATION": 120000,
+    "WARMUP_TIME": 3000,
+    "COOLDOWN_TIME": 2000
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "timestamp": "2025-06-24T22:23:24.903Z",
+  "overall": "unhealthy",
+  "checks": [
+    {
+      "name": "Env PRIVATE_KEY",
+      "status": "pass",
+      "details": "Definida",
+      "timestamp": "2025-06-24T22:23:24.904Z"
+    },
+    {
+      "name": "Env RPC_URL_PRIMARY",
+      "status": "pass",
+      "details": "Definida",
+      "timestamp": "2025-06-24T22:23:24.904Z"
+    },
+    {
+      "name": "Env ARBITRAGE_CONTRACT_ADDRESS",
+      "status": "pass",
+      "details": "Definida",
+      "timestamp": "2025-06-24T22:23:24.904Z"
+    },
+    {
+      "name": "Env RPC_URL_BACKUP",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:23:24.904Z"
+    },
+    {
+      "name": "Env WS_URL_PRIMARY",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:23:24.905Z"
+    },
+    {
+      "name": "Env POLYGONSCAN_API_KEY",
+      "status": "warn",
+      "details": "Opcional não definida",
+      "timestamp": "2025-06-24T22:23:24.905Z"
+    },
+    {
+      "name": "Private Key Format",
+      "status": "pass",
+      "details": "Formato correto",
+      "timestamp": "2025-06-24T22:23:24.905Z"
+    },
+    {
+      "name": "Primary RPC",
+      "status": "pass",
+      "details": "Bloco atual: 23188306",
+      "timestamp": "2025-06-24T22:23:25.838Z"
+    },
+    {
+      "name": "Contract Exists",
+      "status": "fail",
+      "details": "Nenhum código no endereço",
+      "timestamp": "2025-06-24T22:23:26.695Z"
+    },
+    {
+      "name": "Wallet Address",
+      "status": "pass",
+      "details": "0x1a32D2a9...",
+      "timestamp": "2025-06-24T22:23:27.062Z"
+    },
+    {
+      "name": "Wallet Balance",
+      "status": "pass",
+      "details": "79.9543 ETH",
+      "timestamp": "2025-06-24T22:23:27.062Z"
+    },
+    {
+      "name": "Gas Price",
+      "status": "pass",
+      "details": "60.79 gwei",
+      "timestamp": "2025-06-24T22:23:28.259Z"
+    },
+    {
+      "name": "Logs Directory",
+      "status": "pass",
+      "details": "Diretório existe",
+      "timestamp": "2025-06-24T22:23:28.260Z"
+    },
+    {
+      "name": "Log combined.log",
+      "status": "warn",
+      "details": "Arquivo não encontrado",
+      "timestamp": "2025-06-24T22:23:28.260Z"
+    },
+    {
+      "name": "Log error.log",
+      "status": "warn",
+      "details": "Arquivo não encontrado",
+      "timestamp": "2025-06-24T22:23:28.260Z"
+    },
+    {
+      "name": "Arbitrage Logs",
+      "status": "warn",
+      "details": "Nenhum log de arbitragem encontrado",
+      "timestamp": "2025-06-24T22:23:28.260Z"
+    },
+    {
+      "name": "Directory logs",
+      "status": "pass",
+      "details": "Acessível e gravável",
+      "timestamp": "2025-06-24T22:23:28.262Z"
+    },
+    {
+      "name": "Directory data",
+      "status": "warn",
+      "details": "Não existe (será criado quando necessário)",
+      "timestamp": "2025-06-24T22:23:28.262Z"
+    },
+    {
+      "name": "Directory backups",
+      "status": "warn",
+      "details": "Não existe (será criado quando necessário)",
+      "timestamp": "2025-06-24T22:23:28.262Z"
+    },
+    {
+      "name": "Disk Space",
+      "status": "pass",
+      "details": "Disponível (verificação completa requer módulo adicional)",
+      "timestamp": "2025-06-24T22:23:28.262Z"
+    },
+    {
+      "name": "Dependency ethers",
+      "status": "pass",
+      "details": "v^6.9.0",
+      "timestamp": "2025-06-24T22:23:28.263Z"
+    },
+    {
+      "name": "Dependency hardhat",
+      "status": "pass",
+      "details": "v^2.22.0",
+      "timestamp": "2025-06-24T22:23:28.263Z"
+    },
+    {
+      "name": "Dependency winston",
+      "status": "pass",
+      "details": "v^3.17.0",
+      "timestamp": "2025-06-24T22:23:28.263Z"
+    },
+    {
+      "name": "Dependency ws",
+      "status": "pass",
+      "details": "v^8.14.2",
+      "timestamp": "2025-06-24T22:23:28.263Z"
+    },
+    {
+      "name": "Node Modules",
+      "status": "pass",
+      "details": "Diretório existe",
+      "timestamp": "2025-06-24T22:23:28.264Z"
+    }
+  ],
+  "warnings": [
+    {
+      "category": "Environment",
+      "message": "Variável opcional RPC_URL_BACKUP não definida"
+    },
+    {
+      "category": "Environment",
+      "message": "Variável opcional WS_URL_PRIMARY não definida"
+    },
+    {
+      "category": "Environment",
+      "message": "Variável opcional POLYGONSCAN_API_KEY não definida"
+    }
+  ],
+  "errors": [
+    {
+      "category": "Contract",
+      "message": "Contrato não encontrado no endereço especificado"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "Environment",
+      "action": "Configurar variáveis opcionais para maior confiabilidade"
+    }
+  ]
+}
